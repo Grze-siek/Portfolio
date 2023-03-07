@@ -1,91 +1,72 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from './page.module.css'
+import { use } from 'react';
+import About from '@/components/About';
+import ContactMe from '@/components/ContactMe';
+import WorkExperience from '@/components/Experience';
+import Header from '@/components/Header';
+import Hero from '@/components/Hero';
+import Projects from '@/components/Projects';
+import Skills from '@/components/Skills';
+import { ArrowUpIcon } from '@heroicons/react/24/solid';
+import { Experience, PageInfo, Project, Skill, Social } from '@/typings';
+import { fetchPageInfo } from '@/utils/fetchPageInfo';
+import { fetchExperiences } from '@/utils/fetchExperiences';
+import { fetchSkills } from '@/utils/fetchSkills';
+import { fetchProjects } from '@/utils/fetchProjects';
+import { fetchSocials } from '@/utils/fetchSocials';
 
-const inter = Inter({ subsets: ['latin'] })
+async function getData() {
+  const pageInfo: PageInfo = await fetchPageInfo();
+  const experiences: Experience[] = await fetchExperiences();
+  const skills: Skill[] = await fetchSkills();
+  const projects: Project[] = await fetchProjects();
+  const socials: Social[] = await fetchSocials();
+
+  return {
+    pageInfo,
+    experiences,
+    skills,
+    projects,
+    socials,
+  };
+}
 
 export default function Home() {
+  const { pageInfo, experiences, skills, projects, socials } = use(getData());
+  console.log('Projects from Page:', projects);
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    <div className="bg-[#272727] text-white h-screen snap-y snap-mandatory overflow-y-scroll overflow-x-hidden z-0 scrollbar scrollbar-track-gray-400/20 scrollbar-thumb-primary-color">
+      <Header socials={socials} />
+      <section id="hero" className="snap-start">
+        <Hero pageInfo={pageInfo} />
+      </section>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-        <div className={styles.thirteen}>
-          <Image src="/thirteen.svg" alt="13" width={40} height={31} priority />
-        </div>
-      </div>
+      <section id="about" className="snap-center">
+        <About pageInfo={pageInfo} />
+      </section>
 
-      <div className={styles.grid}>
-        <a
-          href="https://beta.nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Find in-depth information about Next.js features and API.
-          </p>
+      <section id="experience" className="snap-center">
+        <WorkExperience experiences={experiences} />
+      </section>
+
+      <section id="skills" className="snap-start">
+        <Skills skills={skills} />
+      </section>
+
+      <section id="projects" className="snap-start">
+        <Projects projects={projects} />
+      </section>
+
+      <section id="contact" className="snap-start">
+        <ContactMe pageInfo={pageInfo} />
+      </section>
+
+      <footer className="hidden md:flex justify-end sticky w-full bottom-5">
+        <a href="#hero">
+          <div className="inline-block border sticky bottom-5 border-[#fff] mr-10 rounded-full group animate-bounce m-auto hover:border-primary-color">
+            <ArrowUpIcon className="h-12 w-12 p-2 group-hover:stroke-primary-color " />
+          </div>
         </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+      </footer>
+    </div>
+  );
 }
