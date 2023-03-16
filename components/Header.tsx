@@ -36,34 +36,35 @@ export default function Header({ socials }: Props) {
           />
         ))}
       </motion.div>
-      <a href="/#contact">
-        <motion.div
-          initial={{
-            x: 500,
-            opacity: 0,
-            scale: 0.5,
-          }}
-          animate={{
-            x: 0,
-            opacity: 1,
-            scale: 1,
-          }}
-          transition={{
-            duration: 1.5,
-          }}
-          className="flex flex-row items-center text-gray-300 cursor-pointer"
-        >
-          <SocialIcon
-            className="cursor-pointer"
-            network="email"
-            fgColor="gray"
-            bgColor="transparent"
-          />
+
+      <motion.div
+        initial={{
+          x: 500,
+          opacity: 0,
+          scale: 0.5,
+        }}
+        animate={{
+          x: 0,
+          opacity: 1,
+          scale: 1,
+        }}
+        transition={{
+          duration: 1.5,
+        }}
+        className="flex flex-row items-center space-x-4 text-gray-300 cursor-pointer"
+      >
+        <a href="/#contact">
           <p className="hidden md:inline-flex text-sm text-gray-400">
             GET IN TOUCH
           </p>
-        </motion.div>
-      </a>
+        </a>
+        <Link
+          href="https://responsive-ha0b8wscg-grze-siek.vercel.app/"
+          target="_blank"
+        >
+          <img src="curriculum-vitae.png" className="h-10 w-10 text-gray-500" />
+        </Link>
+      </motion.div>
     </header>
   );
 }

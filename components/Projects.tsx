@@ -9,48 +9,40 @@ type Props = {
 };
 
 function Projects({ projects }: Props) {
+  console.log(projects);
   return (
-    <motion.div
-      initial={{
-        opacity: 0,
-      }}
-      transition={{
-        duration: 1.2,
-      }}
-      whileInView={{
-        opacity: 1,
-      }}
-      className="h-screen relative flex justify-evenly items-center overflow-hidden flex-col text-left md:flex-row max-w-full mx-auto z-0"
-    >
+    <div className="h-screen relative flex justify-evenly items-center overflow-hidden flex-col text-left md:flex-row max-w-full mx-auto z-0">
       <h3 className="absolute top-24 uppercase tracking-[20px] text-gray-500 text-2xl z-50 mb-10">
         Projects
       </h3>
 
       <div className="relatice w-full flex overflow-x-scroll overflow-y-hidden snap-x snap-mandatory z-20 scrollbar-thin scrollbar-track-gray-400/20 scrollbar-thumb-primary-color">
         {projects?.map((project, i) => (
-          <motion.div
-            initial={{
-              y: -300,
-              opacity: 0,
-            }}
-            transition={{
-              duration: 1.2,
-            }}
-            whileInView={{
-              opacity: 1,
-              y: 0,
-            }}
-            viewport={{ once: true }}
+          <div
             className="w-screen flex-shrink-0 snap-center flex flex-col space-y-5 items-center justify-center p-20 md:p-44 h-screen"
             key={project._id}
           >
-            <Image
-              key={project._id}
-              src={urlFor(project.image).url()}
-              alt={project.title}
-              height={300}
-              width={300}
-            />
+            <motion.div
+              initial={{
+                y: -300,
+                opacity: 0,
+              }}
+              transition={{
+                duration: 1.2,
+              }}
+              whileInView={{
+                opacity: 1,
+                y: 0,
+              }}
+              viewport={{ once: true }}
+            >
+              <Image
+                src={urlFor(project.image).url()}
+                alt={project.title}
+                height={300}
+                width={300}
+              />
+            </motion.div>
             <div className="space-y-10 px-0 md:px-10">
               <h4 className="text-4xl font-semibold text-center">
                 <span className="underline decoration-primary-color decoration-opacity-50">
@@ -61,15 +53,22 @@ function Projects({ projects }: Props) {
               <div className="flex items-center space-x-4 justify-center">
                 {project.technologies?.map((technology) =>
                   technology ? (
-                    <Image
+                    <div
                       key={technology._id}
-                      src={urlFor(technology.image).url()}
-                      alt={technology.title}
-                      height={20}
-                      width={20}
-                      className="rounded-full h-10 w-10 object-cover"
-                      unoptimized
-                    />
+                      className="relative cursor-pointer group"
+                    >
+                      <Image
+                        src={urlFor(technology.image).url()}
+                        alt={technology.title}
+                        height={20}
+                        width={20}
+                        className="rounded-full h-10 w-10 object-cover"
+                        unoptimized
+                      />
+                      <div className="description">
+                        <p className="text-white">{technology.title}</p>
+                      </div>
+                    </div>
                   ) : null
                 )}
               </div>
@@ -83,12 +82,12 @@ function Projects({ projects }: Props) {
                 See the Build
               </button>
             </a>
-          </motion.div>
+          </div>
         ))}
       </div>
 
       <div className="w-full absolute bg-primary-color opacity-10 top-[30%] left-0 h-[500px] -skew-y-12" />
-    </motion.div>
+    </div>
   );
 }
 

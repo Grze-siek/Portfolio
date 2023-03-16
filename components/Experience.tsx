@@ -8,7 +8,6 @@ type Props = {
 };
 
 const Experience = ({ experiences }: Props) => {
-  console.log('Experience from', experiences);
   return (
     <motion.div
       initial={{
