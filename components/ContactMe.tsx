@@ -1,8 +1,13 @@
 'use client';
 import { PageInfo } from '@/typings';
 import { PhoneIcon, EnvelopeIcon, MapPinIcon } from '@heroicons/react/24/solid';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import * as React from 'react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import emailjs from '@emailjs/browser';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useState } from 'react';
 
 type Props = {
   pageInfo: PageInfo;
@@ -15,17 +20,64 @@ type Inputs = {
   message: string;
 };
 
+const schema = yup
+  .object({
+    name: yup.string().required('Name is required'),
+    email: yup.string().email().required('Email is required'),
+    subject: yup.string().required('Please, input subject'),
+    message: yup.string().required('Please, input message'),
+  })
+  .required();
+type FormData = yup.InferType<typeof schema>;
+
 function ContactMe({ pageInfo }: Props) {
+  const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => console.log(data);
+  } = useForm<FormData>({
+    resolver: yupResolver(schema),
+  });
+  const serviceId = process.env.NEXT_PUBLIC_SERVICE_ID!;
+  const templateId = process.env.NEXT_PUBLIC_TEMPLATE_ID!;
+  const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY!;
+
+  const onSubmit = (data: FormData) => {
+    setIsLoading(true);
+    emailjs.send(serviceId, templateId, data, publicKey).then(
+      (result) => {
+        setIsLoading(false);
+        toast.success('Message sent 😃', {
+          position: 'bottom-right',
+          autoClose: 4000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        });
+      },
+      (error) => {
+        setIsLoading(false);
+        toast.error('There was a problem, please try again 😕', {
+          position: 'bottom-right',
+          autoClose: 4000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        });
+      }
+    );
+  };
 
   return (
-    <div className="h-screen relative flex flex-col text-center max-w-[800px] md:text-left md:flex-row md:max-w-7xl px-5 md:px-10 justify-evenly mx-auto items-center">
+    <div className="h-screen relative flex flex-col items-center justify-center text-center max-w-[800px] md:text-left md:flex-row md:max-w-7xl px-5 md:px-10 mx-auto">
       <h3 className="absolute top-24 uppercase tracking-[20px] text-gray-500 text-2xl mb-10">
         Contact me
       </h3>
@@ -36,7 +88,7 @@ function ContactMe({ pageInfo }: Props) {
           <span className="underline decoration-primary-color">Lets talk.</span>
         </h4>
 
-        <div className="space-y-10">
+        <div className="space-y-6">
           <div className="flex items-center space-x-5 justify-center">
             <PhoneIcon className="h-7 w-7 animate-pulse text-primary-color" />
             <p className="text-2xl">{pageInfo?.phoneNumber}</p>
@@ -56,18 +108,24 @@ function ContactMe({ pageInfo }: Props) {
           className="flex flex-col space-y-2 w-fit mx-auto"
         >
           <div className="flex space-x-2">
-            <input
-              {...register('name')}
-              placeholder="Name"
-              type="text"
-              className="contactInput"
-            />
-            <input
-              {...register('email')}
-              placeholder="Email"
-              type="text"
-              className="contactInput"
-            />
+            <div>
+              <input
+                {...register('name')}
+                placeholder="Name"
+                type="text"
+                className="contactInput"
+              />
+              <p className="text-sm text-red-500">{errors.name?.message}</p>
+            </div>
+            <div>
+              <input
+                {...register('email')}
+                placeholder="Email"
+                type="text"
+                className="contactInput"
+              />
+              <p className="text-sm text-red-500">{errors.email?.message}</p>
+            </div>
           </div>
           <input
             {...register('subject')}
@@ -75,16 +133,34 @@ function ContactMe({ pageInfo }: Props) {
             type="text"
             className="contactInput"
           />
+          <p className="text-sm text-red-500">{errors.subject?.message}</p>
           <textarea
             {...register('message')}
             placeholder="Message"
             className="contactInput"
           />
-          <button className="bg-primary-color py-5 px-10 rounded-md text-black font-bold text-lg hover:brightness-110">
-            Submit
+          <p className="text-sm text-red-500">{errors.message?.message}</p>
+          <button
+            className={`bg-primary-color py-5 px-10 rounded-md text-black font-bold text-lg hover:brightness-110 ${
+              isLoading ? 'animate-pulse cursor-none' : 'cursor-pointer'
+            }`}
+          >
+            Sumbit
           </button>
         </form>
       </div>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={4000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 }

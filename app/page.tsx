@@ -1,4 +1,3 @@
-import { use } from 'react';
 import About from '@/components/About';
 import ContactMe from '@/components/ContactMe';
 import WorkExperience from '@/components/Experience';
@@ -14,25 +13,12 @@ import { fetchSkills } from '@/utils/fetchSkills';
 import { fetchProjects } from '@/utils/fetchProjects';
 import { fetchSocials } from '@/utils/fetchSocials';
 
-async function getData() {
+export default async function Home() {
   const pageInfo: PageInfo = await fetchPageInfo();
   const experiences: Experience[] = await fetchExperiences();
   const skills: Skill[] = await fetchSkills();
   const projects: Project[] = await fetchProjects();
   const socials: Social[] = await fetchSocials();
-
-  return {
-    pageInfo,
-    experiences,
-    skills,
-    projects,
-    socials,
-  };
-}
-
-export default function Home() {
-  const { pageInfo, experiences, skills, projects, socials } = use(getData());
-  console.log('Projects from Page:', projects);
   return (
     <div className="bg-[#272727] text-white h-screen snap-y snap-mandatory overflow-y-scroll overflow-x-hidden z-0 scrollbar scrollbar-track-gray-400/20 scrollbar-thumb-primary-color">
       <Header socials={socials} />
@@ -44,9 +30,9 @@ export default function Home() {
         <About pageInfo={pageInfo} />
       </section>
 
-      <section id="experience" className="snap-center">
+      {/* <section id="experience" className="snap-center">
         <WorkExperience experiences={experiences} />
-      </section>
+      </section> */}
 
       <section id="skills" className="snap-start">
         <Skills skills={skills} />
@@ -60,9 +46,9 @@ export default function Home() {
         <ContactMe pageInfo={pageInfo} />
       </section>
 
-      <footer className="hidden md:flex justify-end sticky w-full bottom-5">
+      <footer className="hidden md:block max-w-fit sticky right-5 bottom-5">
         <a href="#hero">
-          <div className="inline-block border sticky bottom-5 border-[#fff] mr-10 rounded-full group animate-bounce m-auto hover:border-primary-color">
+          <div className="inline-block border sticky bottom-5 border-[#fff] ml-10 rounded-full group animate-bounce m-auto hover:border-primary-color">
             <ArrowUpIcon className="h-12 w-12 p-2 group-hover:stroke-primary-color " />
           </div>
         </a>
