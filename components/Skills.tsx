@@ -8,7 +8,7 @@ type Props = {
 
 function Skills({ skills }: Props) {
   return (
-    <div className="min-h-screen flex flex-col relative text-center max-w-[2000px] xl:px-10 md:text-left xl:flex-row justify-center xl:space-y-0 mx-auto items-center">
+    <div className="min-h-screen flex flex-col relative text-center max-w-[2000px] xl:px-10 md:text-left xl:flex-row justify-center xl:space-y-0 mx-auto items-center max-md:pt-44">
       <h3 className="absolute top-24 uppercase tracking-[20px] text-gray-500 text-2xl">
         Skills
       </h3>

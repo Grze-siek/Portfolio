@@ -30,6 +30,7 @@ export default function About({ pageInfo }: Props) {
         initial={{ x: -200 }}
         transition={{ duration: 1.2 }}
         whileInView={{ x: 0 }}
+        viewport={{ once: true }}
         className="flex-shrink-0 -mb-20 md:mb-0"
       >
         <Image

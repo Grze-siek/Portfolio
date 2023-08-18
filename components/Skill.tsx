@@ -22,17 +22,18 @@ function Skill({ directionLeft, skill }: Props) {
         opacity: 1,
         x: 0,
       }}
+      viewport={{ once: true }}
       className="group relative flex cursor-pointer"
     >
-      <Image
-        src={urlFor(skill.image).url()}
-        alt={skill.title}
-        height={20}
-        width={20}
-        style={{ objectFit: 'scale-down' }}
-        className="rounded-full border bg-transparent border-gray-500 object-cover w-24 h-24 md:h-28 md:w-28 xl:w-32 xl:h-32 filter group-hover:grayscale transition duration-300 ease-in-out"
-        unoptimized
-      />
+      <div className="relative rounded-full border bg-transparent border-gray-500 object-cover w-24 h-24 md:h-28 md:w-28 xl:w-32 xl:h-32 filter group-hover:grayscale transition duration-300 ease-in-out overflow-hidden">
+        <Image
+          src={urlFor(skill.image).url()}
+          alt={skill.title}
+          fill
+          style={{ objectFit: 'scale-down', padding: '1rem' }}
+          unoptimized
+        />
+      </div>
 
       <div className="absolute opacity-0 group-hover:opacity-80 transition duration-300 ease-in-out group-hover:bg-white h-24 w-24 md:h-28 md:w-28 xl:w-32 xl:h-32 rounded-full z-0">
         <div className="flex items-center justify-center h-full">

@@ -9,7 +9,7 @@ export const fetchExperiences = async () => {
   );
 
   const data = await res.json();
-  console.log('Experiences before: ', data);
+
   const experiences: Experience[] = data.experiences;
   return experiences;
 };

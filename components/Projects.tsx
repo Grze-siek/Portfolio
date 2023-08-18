@@ -9,22 +9,32 @@ type Props = {
 };
 
 function Projects({ projects }: Props) {
-  console.log(projects);
   return (
-    <div className="h-screen relative flex justify-evenly items-center overflow-hidden flex-col text-left md:flex-row max-w-full mx-auto z-0">
-      <h3 className="absolute top-24 uppercase tracking-[20px] text-gray-500 text-2xl z-50 mb-10">
+    <motion.div
+      initial={{
+        opacity: 0,
+      }}
+      transition={{
+        duration: 1.5,
+      }}
+      whileInView={{
+        opacity: 1,
+      }}
+      className="h-screen relative flex justify-evenly items-center overflow-hidden flex-col text-left md:flex-row max-w-full mx-auto z-0"
+    >
+      <h3 className="absolute top-24 md:top-24 uppercase tracking-[20px] text-gray-500 text-2xl z-50 mb-10">
         Projects
       </h3>
 
       <div className="relative w-full flex overflow-x-scroll overflow-y-hidden snap-x snap-mandatory z-20 scrollbar-thin scrollbar-track-gray-400/20 scrollbar-thumb-primary-color">
         {projects?.map((project, i) => (
           <div
-            className="w-screen flex-shrink-0 snap-center flex flex-col space-y-5 items-center justify-center p-20 md:p-44 h-screen"
+            className="w-screen flex-shrink-0 snap-center flex flex-col space-y-5 items-center justify-end max-md:px-14 max-md:py-20 md:p-32 h-screen"
             key={project._id}
           >
             <motion.div
               initial={{
-                y: -300,
+                y: -250,
                 opacity: 0,
               }}
               transition={{
@@ -43,8 +53,8 @@ function Projects({ projects }: Props) {
                 width={300}
               />
             </motion.div>
-            <div className="space-y-10 px-0 md:px-10">
-              <h4 className="text-4xl font-semibold text-center">
+            <div className="space-y-5 md:space-y-10 px-0 md:px-10">
+              <h4 className="text-2xl md:text-4xl font-semibold text-center">
                 <span className="underline decoration-primary-color decoration-opacity-50">
                   Case Study {i + 1} of {projects.length}:
                 </span>{' '}
@@ -74,7 +84,7 @@ function Projects({ projects }: Props) {
                 )}
               </div>
 
-              <p className="ext-lg text-center md:text-left">
+              <p className="text-sm md:text-lg text-center md:text-left">
                 {project?.summary}
               </p>
             </div>
@@ -88,7 +98,7 @@ function Projects({ projects }: Props) {
       </div>
 
       <div className="w-full absolute bg-primary-color opacity-10 top-[30%] left-0 h-[500px] -skew-y-12" />
-    </div>
+    </motion.div>
   );
 }
 

@@ -58,12 +58,6 @@ export default function Header({ socials }: Props) {
             GET IN TOUCH
           </p>
         </a>
-        <Link
-          href="https://responsive-ha0b8wscg-grze-siek.vercel.app/"
-          target="_blank"
-        >
-          <img src="curriculum-vitae.png" className="h-10 w-10 text-gray-500" />
-        </Link>
       </motion.div>
     </header>
   );

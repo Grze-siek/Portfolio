@@ -77,52 +77,52 @@ function ContactMe({ pageInfo }: Props) {
   };
 
   return (
-    <div className="h-screen relative flex flex-col items-center justify-center text-center max-w-[800px] md:text-left md:flex-row md:max-w-7xl px-5 md:px-10 mx-auto">
-      <h3 className="absolute top-24 uppercase tracking-[20px] text-gray-500 text-2xl mb-10">
+    <div className="h-screen relative flex flex-col items-center justify-center text-center max-w-[800px] md:text-left md:flex-row md:max-w-7xl md:px-10 mx-auto">
+      <h3 className="absolute top-24 uppercase tracking-[20px] text-gray-500 text-xl md:text-2xl mb-10">
         Contact me
       </h3>
 
-      <div className="flex flex-col px-5 space-y-10 h-[60vh]">
-        <h4 className="text-4xl font-semibold text-center">
+      <div className="flex flex-col px-5 space-y-10 h-[60vh] max-w-full mx-auto">
+        <h4 className="text-3xl md:text-4xl font-semibold text-center">
           I have got just what you need.{' '}
           <span className="underline decoration-primary-color">Lets talk.</span>
         </h4>
 
-        <div className="space-y-6">
-          <div className="flex items-center space-x-5 justify-center">
-            <PhoneIcon className="h-7 w-7 animate-pulse text-primary-color" />
-            <p className="text-2xl">{pageInfo?.phoneNumber}</p>
+        <div className="space-y-2 md:space-y-6">
+          <div className="flex items-center space-x-2 md:space-x-5 justify-center">
+            <PhoneIcon className="h-5 w-5 md:h-7 md:w-7 animate-pulse text-primary-color" />
+            <p className="text-xl md:text-2xl">{pageInfo?.phoneNumber}</p>
           </div>
-          <div className="flex items-center space-x-5 justify-center">
-            <EnvelopeIcon className="h-7 w-7 animate-pulse text-primary-color" />
-            <p className="text-2xl">{pageInfo?.email}</p>
+          <div className="flex items-center space-x-2 md:space-x-5 justify-center">
+            <EnvelopeIcon className="h-5 w-5 md:h-7 md:w-7 animate-pulse text-primary-color" />
+            <p className="text-xl md:text-2xl ">{pageInfo?.email}</p>
           </div>
-          <div className="flex items-center space-x-5 justify-center">
-            <MapPinIcon className="h-7 w-7 animate-pulse text-primary-color" />
-            <p className="text-2xl">{pageInfo?.address}</p>
+          <div className="flex items-center space-x-2 md:space-x-5 justify-center">
+            <MapPinIcon className="h-5 w-5 md:h-7 md:w-7 animate-pulse text-primary-color" />
+            <p className="text-xl md:text-2xl">{pageInfo?.address}</p>
           </div>
         </div>
 
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col space-y-2 w-fit mx-auto"
+          className="flex flex-col space-y-2 w-full md:w-fit mx-auto"
         >
-          <div className="flex space-x-2">
-            <div>
+          <div className="flex flex-col md:flex-row max-md:space-y-2 md:space-x-2 w-full">
+            <div className="w-full">
               <input
                 {...register('name')}
                 placeholder="Name"
                 type="text"
-                className="contactInput"
+                className="contactInput max-md:w-full"
               />
               <p className="text-sm text-red-500">{errors.name?.message}</p>
             </div>
-            <div>
+            <div className="w-full">
               <input
                 {...register('email')}
                 placeholder="Email"
                 type="text"
-                className="contactInput"
+                className="contactInput max-md:w-full"
               />
               <p className="text-sm text-red-500">{errors.email?.message}</p>
             </div>
